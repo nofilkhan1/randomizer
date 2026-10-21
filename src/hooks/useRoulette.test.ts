@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ALL_ROLLS, ELIGIBLE_PERFORMERS } from '../data/rolls';
-import { useRoulette } from './useRoulette';
+import { getDecelerationTimes, useRoulette } from './useRoulette';
 
 describe('useRoulette', () => {
   afterEach(() => vi.useRealTimers());
@@ -23,13 +23,15 @@ describe('useRoulette', () => {
     random.mockReturnValue(0.99);
     const seen = new Set<string>();
     let previousTime = 0;
-    for (let tick = 1; tick <= 52; tick += 1) {
-      const progress = tick / 52;
-      const time = Math.round(6500 * (1 - (1 - progress) ** 2.55));
+    for (const time of getDecelerationTimes()) {
       act(() => vi.advanceTimersByTime(time - previousTime));
       previousTime = time;
       seen.add(result.current.displayedRoll);
     }
+    const times = getDecelerationTimes();
+    const intervals = times.map((time, index) => time - (times[index - 1] ?? 0));
+    expect(intervals.at(-1)).toBeGreaterThan(intervals[0] ?? 0);
+    expect(times.at(-1)).toBe(6500);
     expect(ALL_ROLLS.every((roll) => seen.has(roll))).toBe(true);
     expect(result.current.displayedRoll).toBe(ELIGIBLE_PERFORMERS[0]);
     expect(random).toHaveBeenCalledTimes(2);

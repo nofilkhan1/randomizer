@@ -13,7 +13,7 @@ An English-language, full-screen live show controller for a university classroom
 - **Tension amber** `#FFB547` — suspense captions.
 - **Paper white** `#F5F7F5` — high-contrast display type.
 
-Display typography uses locally bundled Barlow Condensed. Manrope handles interface copy, and DM Mono keeps roll numbers tabular and precise. The slot machine is the visual signature: a beveled, glassy signal window, neon rails, and carefully paced digit turnover.
+Display typography uses locally bundled Barlow Condensed. Manrope handles interface copy, and DM Mono keeps roll numbers tabular and precise. The slot machine is the visual signature: a beveled, glassy signal window, neon rails, and digit turnover whose easing follows the deceleration curve. A dim broadcast grid and drifting particles frame the stage; cyan and lime light beams stay reserved for the reveal.
 
 ## Layout and behavior
 

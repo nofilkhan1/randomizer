@@ -87,6 +87,8 @@ function App() {
   return (
     <main ref={stageRef} className={`stage${spinning ? ' stage--spinning' : ''}${revealed ? ' stage--revealed' : ''}`}>
       <div className="ambient-grid" aria-hidden="true" />
+      <div className="ambient-particles" aria-hidden="true" />
+      <div className="spotlight-beams" aria-hidden="true" />
       <div className="ambient-grain" aria-hidden="true" />
       <div className="scanline" aria-hidden="true" />
       <div className="stage-inner">
@@ -106,7 +108,7 @@ function App() {
             <div className="side-decoration side-decoration--left" aria-hidden="true"><span>ROLL<br />CALL</span><i /><i /><i /></div>
             <div className="slot-wrap">
               <div className="slot-caption"><span>✳&nbsp; LIVE DRAW &nbsp;✳</span><span>NO. 046</span></div>
-              <SlotDisplay value={roulette.displayedRoll} spinning={spinning} revealed={revealed} />
+              <SlotDisplay value={roulette.displayedRoll} spinning={spinning} spinProgress={roulette.spinProgress} revealed={revealed} />
               <div className="spin-whisper" aria-live="polite">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span key={spinning ? `spin-${spinLine}` : revealed ? 'reveal' : 'ready'} initial={{ opacity: 0, y: 7 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.2 }}>

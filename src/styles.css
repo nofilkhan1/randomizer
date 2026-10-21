@@ -192,3 +192,115 @@ button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
   .summon-button,.utility-button,.roster-roll,.slot-frame { border: 1px solid ButtonText; }
   .slot-number,.hero h1,.hero h1 span,.winner-copy h2 { color: CanvasText; text-shadow: none; }
 }
+
+/* Broadcast polish: a wider signal stage, stronger type hierarchy, and quieter effects. */
+.stage-inner { padding-top: clamp(18px,2.1vh,30px); }
+.ambient-grid { opacity: .2; background-size: 82px 82px; }
+.ambient-particles { position: absolute; z-index: 0; inset: 0; pointer-events: none; opacity: .64; background-image: radial-gradient(circle,rgba(55,221,243,.58) 0 1px,transparent 1.7px),radial-gradient(circle,rgba(186,255,57,.5) 0 1px,transparent 1.8px),radial-gradient(circle,rgba(225,241,233,.37) 0 1px,transparent 1.5px); background-size: 83px 91px,127px 117px,173px 149px; background-position: 17px 29px,61px 43px,109px 67px; mask-image: radial-gradient(ellipse at 50% 44%,black 0%,transparent 77%); animation: particle-drift 17s ease-in-out infinite alternate; }
+.spotlight-beams { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; opacity: 0; background: linear-gradient(111deg,transparent 30%,rgba(186,255,57,.08) 39%,rgba(186,255,57,.025) 45%,transparent 51%),linear-gradient(70deg,transparent 49%,rgba(55,221,243,.085) 56%,rgba(55,221,243,.025) 62%,transparent 69%); mask-image: linear-gradient(to bottom,#000 0%,rgba(0,0,0,.75) 55%,transparent 91%); transition: opacity .8s ease; }
+.stage--revealed .spotlight-beams { opacity: 1; animation: beams-open 1.1s cubic-bezier(.18,.74,.2,1) both; }
+.stage--revealed::after { position: absolute; z-index: 1; inset: 0; pointer-events: none; content: ''; opacity: 0; background: radial-gradient(ellipse at 50% 43%,rgba(242,255,221,.28),rgba(186,255,57,.1) 19%,transparent 51%); animation: reveal-flash .58s ease-out both; }
+.stage--spinning .stage-inner { animation: camera-tension 6.5s ease-in-out both; }
+.stage--spinning .ambient-grid { opacity: .31; }
+.stage--spinning .ambient-particles { opacity: .86; animation-duration: 8s; }
+
+.hero-copy { margin-top: clamp(20px,3.4vh,46px); }
+.eyebrow { font-size: 10px; letter-spacing: .32em; text-shadow: 0 0 16px rgba(55,221,243,.26); }
+.hero h1 { font-size: clamp(64px,6.7vw,126px); letter-spacing: .026em; line-height: .86; }
+.hero-subtitle { color: #bdc7c6; font-size: clamp(13px,1.12vw,19px); letter-spacing: .075em; }
+.stage-display { width: min(100%,1480px); }
+.slot-wrap { width: min(80%,980px); }
+.slot-caption { width: 91%; font-size: 10px; letter-spacing: .24em; }
+.slot-frame { border-color: rgba(186,255,57,.78); box-shadow: 0 0 0 5px rgba(9,14,17,.82),0 0 0 6px rgba(153,180,174,.16),0 16px 56px rgba(0,0,0,.56),0 0 54px rgba(186,255,57,.15),inset 0 0 34px rgba(0,0,0,.8); }
+.slot-frame::after { position: absolute; z-index: 2; top: -35%; bottom: -35%; left: -18%; width: 13%; content: ''; pointer-events: none; opacity: 0; background: linear-gradient(90deg,transparent,rgba(55,221,243,.17),rgba(255,255,255,.1),transparent); transform: skewX(-13deg); }
+.stage--spinning .slot-frame::after { opacity: 1; animation: slot-light-sweep 2.7s cubic-bezier(.15,.72,.25,1) infinite; }
+.slot-window { height: clamp(112px,15.4vh,194px); background: radial-gradient(ellipse at 50% 47%,#1b2b30 0,#0b1218 69%); }
+.slot-number { font-size: clamp(78px,7.1vw,136px); letter-spacing: .04em; }
+.slot-machine--revealed .slot-number { text-shadow: 0 0 9px rgba(228,255,189,.95),0 0 34px rgba(186,255,57,.75),0 0 96px rgba(55,221,243,.43); }
+.spin-whisper { min-height: 29px; padding-top: 12px; font-size: 12px; }
+.stage--spinning .spin-whisper { color: #ffd07b; text-shadow: 0 0 16px rgba(255,181,71,.17); }
+.action-area { min-height: 105px; }
+.summon-button { min-height: 62px; font-size: clamp(21px,1.75vw,28px); letter-spacing: .105em; box-shadow: 0 0 0 1px rgba(186,255,57,.25),0 0 30px rgba(186,255,57,.24),inset 0 1px rgba(255,255,255,.58); }
+.summon-button:hover { background: #d0ff78; box-shadow: 0 0 0 1px rgba(186,255,57,.45),0 0 48px rgba(186,255,57,.4),inset 0 1px rgba(255,255,255,.7); }
+.summon-button[aria-busy="true"] { background: linear-gradient(105deg,#a4e92d,#c6ff53 45%,#9bdf26); background-size: 220% 100%; animation: loading-sheen 1.3s ease-in-out infinite; }
+.summon-button[aria-busy="true"] .summon-arrow { opacity: .82; animation: loading-icon 1.05s ease-in-out infinite; }
+.button-sheen { background: rgba(255,255,255,.5); }
+.winner-copy { position: relative; z-index: 2; }
+.winner-kicker { font-size: 10px; text-shadow: 0 0 17px rgba(186,255,57,.24); }
+.winner-copy h2 { font-size: clamp(39px,4vw,68px); letter-spacing: .055em; text-shadow: 0 0 31px rgba(186,255,57,.23); }
+.winner-copy p { font-size: clamp(12px,1vw,16px); }
+.winner-footnote { margin-top: 5px; font-size: 11px; }
+.roster-wrap { width: min(100%,1480px); }
+.roster-panel { border-color: rgba(154,190,190,.15); background: linear-gradient(110deg,rgba(21,29,38,.87),rgba(13,21,27,.88)); box-shadow: 0 14px 45px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.035); }
+.roster-heading { color: #89989d; font-size: 8px; }
+.roster-grid { gap: 5px 8px; }
+.roster-roll { min-height: 25px; color: #98a5a7; border-color: rgba(170,190,192,.12); font-size: clamp(9px,.83vw,13px); letter-spacing: .025em; }
+.roster-roll--active { color: #f1ffd9; border-color: rgba(186,255,57,.83); background: rgba(186,255,57,.13); box-shadow: 0 0 16px rgba(186,255,57,.2),inset 0 0 10px rgba(186,255,57,.06); }
+.stage-footer { color: #819096; font-size: 8px; }
+
+@keyframes particle-drift { to { transform: translate3d(0,-12px,0); background-position: 34px 6px,42px 75px,145px 20px; } }
+@keyframes beams-open { from { opacity: 0; transform: scaleY(.88); transform-origin: 50% 0; } to { opacity: 1; transform: scaleY(1); } }
+@keyframes reveal-flash { 0% { opacity: .8; } 100% { opacity: 0; } }
+@keyframes slot-light-sweep { 0% { left: -18%; } 100% { left: 110%; } }
+@keyframes loading-sheen { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes loading-icon { 50% { transform: translateY(3px) scale(1.12); } }
+
+@media (min-width: 1500px) and (min-height: 880px) {
+  .stage-inner { padding: 30px clamp(72px,5.2vw,112px) 23px; }
+  .hero-copy { margin-top: clamp(27px,4vh,52px); }
+  .hero h1 { font-size: clamp(112px,6.55vw,150px); }
+  .hero-subtitle { margin-top: 14px; font-size: 18px; }
+  .stage-display { min-height: 340px; width: min(100%,1580px); }
+  .slot-wrap { width: min(80%,1080px); }
+  .slot-window { height: 216px; }
+  .slot-number { font-size: clamp(124px,6.4vw,150px); }
+  .slot-bottomline { padding-top: 12px; font-size: 9px; }
+  .spin-whisper { min-height: 33px; font-size: 14px; }
+  .action-area { min-height: 124px; }
+  .summon-button { width: 560px; min-height: 70px; font-size: 30px; }
+  .winner-copy h2 { font-size: 72px; }
+  .roster-panel { padding: 12px 18px 13px; }
+  .roster-heading { margin-bottom: 9px; font-size: 9px; }
+  .roster-grid { gap: 7px 10px; }
+  .roster-roll { min-height: 29px; font-size: 14px; }
+  .stage-footer { min-height: 34px; font-size: 9px; }
+}
+
+@media (max-height: 820px) and (min-width: 701px) {
+  .stage-inner { padding-top: 13px; padding-bottom: 10px; }
+  .hero-copy { margin-top: 13px; }
+  .hero h1 { font-size: clamp(68px,6.5vw,92px); }
+  .hero-subtitle { margin-top: 7px; }
+  .stage-display { min-height: 205px; }
+  .slot-window { height: clamp(103px,15vh,126px); }
+  .slot-number { font-size: clamp(79px,7vw,105px); }
+  .action-area { min-height: 84px; }
+  .summon-button { min-height: 51px; }
+  .roster-panel { padding: 6px 12px 7px; }
+  .roster-heading { margin-bottom: 5px; }
+  .roster-roll { min-height: 21px; }
+  .stage-footer { min-height: 22px; }
+}
+
+@media (max-width: 700px) {
+  .stage-inner { padding-top: 13px; }
+  .hero h1 { font-size: clamp(48px,12vw,72px); }
+  .stage-display { width: 100%; }
+  .slot-wrap { width: 96%; }
+  .slot-window { height: clamp(96px,15vh,132px); }
+  .slot-number { font-size: clamp(42px,10.8vw,72px); }
+  .summon-button { min-height: 56px; font-size: 20px; }
+  .roster-roll { min-height: 26px; font-size: clamp(8px,2.45vw,10px); }
+  .spotlight-beams { opacity: 0; }
+}
+
+@media (max-width: 390px) {
+  .hero h1 { font-size: clamp(40px,11.2vw,45px); letter-spacing: 0; white-space: nowrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-particles { animation: none; }
+  .stage--revealed .spotlight-beams { animation: none; opacity: .72; }
+  .stage--revealed::after { animation: none; }
+  .stage--spinning .slot-frame::after { animation: none; }
+}
