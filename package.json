@@ -1,0 +1,38 @@
+{
+  "name": "the-chosen-one-roll-call-roulette",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fontsource/barlow-condensed": "^5.1.1",
+    "@fontsource/dm-mono": "^5.1.1",
+    "@fontsource/manrope": "^5.1.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "canvas-confetti": "^1.9.3",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^6.1.2",
+    "jsdom": "^25.0.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~5.7.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  }
+}
