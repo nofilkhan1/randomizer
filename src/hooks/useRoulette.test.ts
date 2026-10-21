@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ELIGIBLE_PERFORMERS } from '../data/rolls';
+import { ALL_ROLLS, ELIGIBLE_PERFORMERS } from '../data/rolls';
 import { useRoulette } from './useRoulette';
 
 describe('useRoulette', () => {
@@ -18,11 +18,21 @@ describe('useRoulette', () => {
 
     expect(result.current.phase).toBe('spinning');
     expect(result.current.winner).toBe(ELIGIBLE_PERFORMERS[0]);
-    expect(random).toHaveBeenCalledTimes(1);
+    expect(random).toHaveBeenCalledTimes(2);
 
     random.mockReturnValue(0.99);
-    act(() => vi.advanceTimersByTime(6500));
+    const seen = new Set<string>();
+    let previousTime = 0;
+    for (let tick = 1; tick <= 52; tick += 1) {
+      const progress = tick / 52;
+      const time = Math.round(6500 * (1 - (1 - progress) ** 2.55));
+      act(() => vi.advanceTimersByTime(time - previousTime));
+      previousTime = time;
+      seen.add(result.current.displayedRoll);
+    }
+    expect(ALL_ROLLS.every((roll) => seen.has(roll))).toBe(true);
     expect(result.current.displayedRoll).toBe(ELIGIBLE_PERFORMERS[0]);
+    expect(random).toHaveBeenCalledTimes(2);
     act(() => vi.advanceTimersByTime(520));
     expect(result.current.phase).toBe('revealed');
     expect(result.current.displayedRoll).toBe(result.current.winner);
