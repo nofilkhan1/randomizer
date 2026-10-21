@@ -31,6 +31,18 @@ describe('winner selection', () => {
     expect(buckets.map((sample) => selectWinner(() => sample))).toEqual([...ELIGIBLE_PERFORMERS]);
   });
 
+  it('assigns an equal-width share of the random range to every performer', () => {
+    const samples = 12_000;
+    const counts = new Map(ELIGIBLE_PERFORMERS.map((performer) => [performer, 0]));
+
+    for (let sample = 0; sample < samples; sample += 1) {
+      const winner = selectWinner(() => (sample + 0.5) / samples);
+      counts.set(winner, (counts.get(winner) ?? 0) + 1);
+    }
+
+    expect([...counts.values()]).toEqual([4_000, 4_000, 4_000]);
+  });
+
   it('rejects an invalid random source instead of producing an unsafe result', () => {
     expect(() => selectWinner(() => 1)).toThrow(RangeError);
     expect(() => selectWinner(() => Number.NaN)).toThrow(RangeError);

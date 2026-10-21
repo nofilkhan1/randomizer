@@ -19,6 +19,7 @@ const SPIN_LINES = [
 function App() {
   const [soundOn, setSoundOn] = useState(false);
   const [fullscreen, setFullscreen] = useState(Boolean(document.fullscreenElement));
+  const [pseudoFullscreen, setPseudoFullscreen] = useState(false);
   const [spinLine, setSpinLine] = useState(0);
   const [showRoster, setShowRoster] = useState(true);
   const stageRef = useRef<HTMLElement>(null);
@@ -36,6 +37,7 @@ function App() {
   const roulette = useRoulette(handleReveal);
   const spinning = roulette.phase === 'spinning';
   const revealed = roulette.phase === 'revealed';
+  const fallbackFullscreen = pseudoFullscreen || (fullscreen && !document.fullscreenElement);
 
   const startSpin = useCallback(() => {
     if (roulette.phase !== 'ready') return;
@@ -54,13 +56,23 @@ function App() {
   }, [roulette]);
 
   const toggleFullscreen = useCallback(async () => {
+    if (fallbackFullscreen) {
+      setPseudoFullscreen(false);
+      setFullscreen(false);
+      return;
+    }
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
-      else await stageRef.current?.requestFullscreen();
+      else if (document.fullscreenEnabled && stageRef.current?.requestFullscreen) {
+        await stageRef.current.requestFullscreen();
+      } else {
+        setPseudoFullscreen(true);
+      }
     } catch {
-      // Fullscreen can be denied by a browser policy; the stage remains usable.
+      // Keep a full-viewport stage available when browser fullscreen is unavailable.
+      setPseudoFullscreen(true);
     }
-  }, []);
+  }, [fallbackFullscreen]);
 
   useEffect(() => {
     const syncFullscreen = () => setFullscreen(Boolean(document.fullscreenElement));
@@ -70,6 +82,11 @@ function App() {
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && fallbackFullscreen) {
+        setPseudoFullscreen(false);
+        setFullscreen(false);
+        return;
+      }
       if (event.code !== 'Space' || event.repeat || event.isComposing) return;
       const target = event.target;
       if (target instanceof HTMLElement && (target.isContentEditable || Boolean(target.closest('input, textarea, select, button, a, [role="button"], [role="checkbox"], [role="switch"]')))) return;
@@ -78,14 +95,14 @@ function App() {
     };
     window.addEventListener('keydown', handleKeydown);
     return () => window.removeEventListener('keydown', handleKeydown);
-  }, [startSpin]);
+  }, [fallbackFullscreen, startSpin]);
 
   useEffect(() => () => {
     if (lineTimerRef.current !== null) window.clearInterval(lineTimerRef.current);
   }, []);
 
   return (
-    <main ref={stageRef} className={`stage${spinning ? ' stage--spinning' : ''}${revealed ? ' stage--revealed' : ''}`}>
+    <main ref={stageRef} className={`stage${spinning ? ' stage--spinning' : ''}${revealed ? ' stage--revealed' : ''}${fallbackFullscreen ? ' stage--pseudo-fullscreen' : ''}`}>
       <div className="ambient-grid" aria-hidden="true" />
       <div className="ambient-particles" aria-hidden="true" />
       <div className="spotlight-beams" aria-hidden="true" />
@@ -94,7 +111,7 @@ function App() {
       <div className="stage-inner">
         <header className="topbar">
           <div className="show-mark"><span className="show-mark__icon"><AudioLines aria-hidden="true" /></span><span>LIVE PERFORMANCE</span></div>
-          <StageControls soundOn={soundOn} fullscreen={fullscreen} onSoundToggle={() => setSoundOn((on) => !on)} onFullscreenToggle={() => void toggleFullscreen()} onReset={reset} />
+          <StageControls soundOn={soundOn} fullscreen={fullscreen || pseudoFullscreen} onSoundToggle={() => setSoundOn((on) => !on)} onFullscreenToggle={() => void toggleFullscreen()} onReset={reset} />
         </header>
 
         <section className="hero" aria-label="Roll call roulette">

@@ -53,4 +53,22 @@ describe('useRoulette', () => {
     expect(result.current.displayedRoll).toBe('25L-0???');
     expect(vi.getTimerCount()).toBe(0);
   });
+
+  it('cancels a pending reveal when reset during the final pause', () => {
+    vi.useFakeTimers();
+    const onReveal = vi.fn();
+    const { result } = renderHook(() => useRoulette(onReveal));
+
+    act(() => result.current.spin());
+    act(() => vi.advanceTimersByTime(6500));
+    expect(result.current.phase).toBe('spinning');
+    expect(ELIGIBLE_PERFORMERS).toContain(result.current.displayedRoll);
+
+    act(() => result.current.reset());
+    act(() => vi.advanceTimersByTime(520));
+    expect(result.current.phase).toBe('ready');
+    expect(result.current.displayedRoll).toBe('25L-0???');
+    expect(onReveal).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+  });
 });
