@@ -1,14 +1,8 @@
-import { ALL_ROLLS, ELIGIBLE_PERFORMERS, type EligiblePerformer, type RollNumber } from '../data/rolls';
+import { ALL_ROLLS, FIXED_WINNER, type RollNumber } from '../data/rolls';
 
-/** Choose once at spin start. The bounded index gives each performer the same share. */
-export function selectWinner(random: () => number = Math.random): EligiblePerformer {
-  const sample = random();
-  if (!Number.isFinite(sample) || sample < 0 || sample >= 1) {
-    throw new RangeError('Random source must return a number in [0, 1).');
-  }
-  const winner = ELIGIBLE_PERFORMERS[Math.floor(sample * ELIGIBLE_PERFORMERS.length)];
-  if (!winner) throw new Error('Eligible performer pool is empty.');
-  return winner;
+/** Return the scripted show outcome. Roster animation never affects the result. */
+export function selectWinner(): typeof FIXED_WINNER {
+  return FIXED_WINNER;
 }
 
 /** Pick a visible decoy from the full class roster. It never decides the result. */

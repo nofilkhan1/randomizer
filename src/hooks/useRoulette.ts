@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ALL_ROLLS, type EligiblePerformer, type RollNumber } from '../data/rolls';
+import { ALL_ROLLS, FIXED_WINNER, type RollNumber } from '../data/rolls';
 import { selectDecoy, selectWinner } from '../lib/selection';
 
 export type RoulettePhase = 'ready' | 'spinning' | 'revealed';
@@ -22,7 +22,7 @@ export function useRoulette(onReveal?: () => void) {
   const [phase, setPhase] = useState<RoulettePhase>('ready');
   const [displayedRoll, setDisplayedRoll] = useState<RollNumber | '25L-0???'>('25L-0???');
   const [spinProgress, setSpinProgress] = useState(0);
-  const [winner, setWinner] = useState<EligiblePerformer | null>(null);
+  const [winner, setWinner] = useState<typeof FIXED_WINNER | null>(null);
   const lockRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const onRevealRef = useRef(onReveal);
@@ -38,7 +38,7 @@ export function useRoulette(onReveal?: () => void) {
     lockRef.current = true;
     clearTimers();
 
-    // This is the sole outcome selection for the spin; frames only show decoys.
+    // The outcome is scripted; random roster entries are decorative only.
     const selectedWinner = selectWinner();
     const startingIndex = ALL_ROLLS.indexOf(selectDecoy());
     setWinner(selectedWinner);

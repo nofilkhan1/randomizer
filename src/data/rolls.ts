@@ -47,7 +47,6 @@ export const ALL_ROLLS = [
   '25L-3060',
 ] as const;
 
-export const ELIGIBLE_PERFORMERS = ['25L-0761', '25L-0790', '25L-0633'] as const;
-
 export type RollNumber = (typeof ALL_ROLLS)[number];
-export type EligiblePerformer = (typeof ELIGIBLE_PERFORMERS)[number];
+
+export const FIXED_WINNER = "25L-0761";

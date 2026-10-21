@@ -1,8 +1,8 @@
 # THE CHOSEN ONE — Roll Call Roulette
 
-A projector-ready classroom game-show experience built with React, TypeScript, and Vite. The screen cycles through a 46-roll class roster, builds suspense, and reveals a preselected volunteer performer.
+A projector-ready classroom game-show experience built with React, TypeScript, and Vite. The screen cycles through a 46-roll class roster, builds suspense, and reveals a scripted outcome.
 
-This is staged show software, not a statistically fair draw from the full class. The roster is visual theater; the result is chosen only from the three pre-consenting performers configured in the source. The interface shows roll numbers only.
+This is a theatrical show effect, not a fair or random lottery for the full class. Every spin is scripted to end on roll number `25L-0761`; the full roster is visual theater. The stage UI displays roll numbers only.
 
 ## Run locally
 
@@ -30,7 +30,7 @@ The production site is written to `dist/`. After dependencies have been installe
 ```text
 src/
   components/      Reusable stage controls, roster, and slot display
-  data/            Exact roll-number roster and performer pool
+  data/            Exact roll-number roster and scripted outcome
   hooks/           Spin timeline and optional synthesized audio
   lib/             Winner and decoy selection functions
   test/            Vitest setup
@@ -42,8 +42,8 @@ src/
 ## How the show works
 
 - The 46 roll numbers are held as exact strings in `src/data/rolls.ts`.
-- One of the three configured performers is selected once at spin start. Each has an equal one-in-three chance.
-- The animation then shows decoys from the full roster and lands on that already-selected performer. A synchronous spin lock prevents double starts.
+- The scripted outcome is fixed at spin start. Random roster entries are decorative animation only and cannot change the result.
+- The animation cycles through the full roster and lands on roll number `25L-0761`. A synchronous spin lock prevents double starts.
 - Reset cancels the active timeline and returns to the mystery display without starting another spin.
 - Sound is off by default and uses the browser's Web Audio API only after the sound control has been enabled.
 - `prefers-reduced-motion` is respected; the application makes no tracking or API requests and stores no personal data.
